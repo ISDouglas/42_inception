@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-COMPOSE = docker-compose -f ./srcs/docker-compose.yml
+COMPOSE = docker compose -f ./srcs/docker-compose.yml
 
 up:
 	./srcs/requirements/utils/init_volumes.sh

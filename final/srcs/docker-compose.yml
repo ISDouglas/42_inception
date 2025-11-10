@@ -1,0 +1,139 @@
+services:
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    env_file: 
+      - .env
+    volumes:
+      - mariadb:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root --password=$(cat /run/secrets/db_root_pw) >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    secrets:
+      - db_root_pw
+      - db_pw
+    networks:
+      - inception
+    restart: unless-stopped
+
+  nginx:
+    build:
+      context: ./requirements/nginx
+      args:
+        DOMAIN_NAME: ${DOMAIN_NAME}
+    container_name: nginx
+    env_file: 
+      - .env
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - inception
+    restart: unless-stopped
+
+  wordpress:
+    container_name: wordpress
+    env_file: 
+      - .env
+    build: ./requirements/wordpress
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - inception
+    secrets:
+      - db_pw
+      - db_root_pw
+      - credentials_pw
+      - credentials_second_pw
+    restart: unless-stopped
+
+  ftp:
+    container_name: ftp
+    build: ./requirements/bonus/ftp
+    depends_on:
+      - wordpress
+    env_file: 
+      - .env
+    volumes:
+      - wordpress:/home/vsftpd/wp-content/uploads
+    ports:
+      - "21:21"
+      - "21000-21010:21000-21010"
+    networks:
+      - inception
+    restart: unless-stopped
+
+  website:
+    container_name: website
+    build: ./requirements/bonus/website
+    volumes:
+    - website:/app
+    networks:
+      - inception
+    restart: unless-stopped
+
+  adminer:
+    container_name: adminer
+    build: ./requirements/bonus/adminer
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+    restart: unless-stopped
+
+  cadvisor:
+    container_name: cadvisor
+    build: ./requirements/bonus/cadvisor
+    ports: 
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - inception
+    restart: unless-stopped
+
+networks:
+  inception:
+    driver: bridge
+
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_PATH}/mariadb
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_PATH}/wordpress
+  website:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_PATH}/website
+
+secrets:
+  db_root_pw:
+    file: /home/layang/secrets/db_root_password.txt
+  db_pw:
+    file: /home/layang/secrets/db_password.txt
+  credentials_pw:
+    file: /home/layang/secrets/credentials.txt
+  credentials_second_pw:
+    file: /home/layang/secrets/credentials.txt
+ 

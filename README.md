@@ -16,6 +16,7 @@ You must use **Docker Compose** to set up multiple isolated containers running d
 - Use **Volumes** to persist data.  
 - **All images must be built from your own Dockerfiles**.  
 - The project must run inside a **virtual machine (VM)**, preferably **Debian**.
+- You need to put your own static site (index.html) page in your folder **/home/*login*/data/website/**.
 
 ---
 

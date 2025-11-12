@@ -37,24 +37,34 @@ You must use **Docker Compose** to set up multiple isolated containers running d
 ```bash
 inception/
 ├── Makefile
+├── secrets/                     # Sensitive files (at project root, ignored by git)
 ├── srcs/
 │   ├── docker-compose.yml
-│   ├── .env                   # Environment variables (ignored by git)
-│   ├── requirements/
-│   │   ├── mariadb/
-│   │   │   └── Dockerfile
-│   │   ├── nginx/
-│   │   │   └── Dockerfile
-│   │   ├── wordpress/
-│   │   │   └── Dockerfile
-│   │   └── bonus/
-│   │       ├── ftp/
-│   │       │   └── Dockerfile
-│   │       ├── adminer/
-│   │       │   └── Dockerfile
-│   │       ├── cadvisor/
-│   │       │   └── Dockerfile
-│   │       └── website/
-│   │           └── Dockerfile
-├── secrets/                    # Sensitive files (ignored by git) — now at repository root
+│   ├── .env                     # Environment variables (ignored by git)
+│   └── requirements/
+│       ├── mariadb/
+│       │   ├── Dockerfile
+│       │   └── conf/
+│       │       ├── 50-server.cnf
+│       │       └── entrypoint.sh
+│       ├── nginx/
+│       │   ├── Dockerfile
+│       │   └── conf/
+│       │       └── default.conf
+│       ├── wordpress/
+│       │   ├── Dockerfile
+│       │   └── conf/
+│       │       └── entrypoint.sh
+│       └── bonus/
+│           ├── adminer/
+│           │   └── Dockerfile
+│           ├── cadvisor/
+│           │   └── Dockerfile
+│           ├── ftp/
+│           │   ├── Dockerfile
+│           │   └── conf/
+│           │       └── entrypoint.sh
+│           └── website/
+│               └── Dockerfile
 └── README.md
+

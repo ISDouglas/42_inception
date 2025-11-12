@@ -26,7 +26,7 @@
 
 NAME = inception
 COMPOSE = docker compose -f ./srcs/docker-compose.yml
-SETUP_DIRS = /home/layang/data/wordpress /home/layang/data/mariadb
+SETUP_DIRS = /home/layang/data/wordpress /home/layang/data/mariadb /home/layang/data/website
 
 all: setup build up
 

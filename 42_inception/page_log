@@ -1,0 +1,183 @@
+docker compose -f ./srcs/docker-compose.yml down --volumes --remove-orphans
+ Container nginx  Stopping
+ Container nginx  Stopped
+ Container nginx  Removing
+ Container nginx  Removed
+ Container wordpress  Stopping
+ Container wordpress  Stopped
+ Container wordpress  Removing
+ Container wordpress  Removed
+ Container mariadb  Stopping
+ Container mariadb  Stopped
+ Container mariadb  Removing
+ Container mariadb  Removed
+ Volume srcs_wordpress  Removing
+ Volume srcs_mariadb  Removing
+ Network srcs_inception  Removing
+ Volume srcs_wordpress  Removed
+ Volume srcs_mariadb  Removed
+ Network srcs_inception  Removed
+#docker system prune -af
+#docker volume prune -f
+rm -rf /mariadb/*
+rm -rf /wordpress/*
+docker compose -f ./srcs/docker-compose.yml build
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.47kB done
+#1 DONE 0.0s
+
+#2 [wordpress internal] load build definition from Dockerfile
+#2 transferring dockerfile: 924B done
+#2 ...
+
+#3 [nginx internal] load build definition from Dockerfile
+#3 transferring dockerfile: 897B done
+#3 DONE 0.3s
+
+#2 [wordpress internal] load build definition from Dockerfile
+#2 DONE 0.4s
+
+#4 [mariadb internal] load build definition from Dockerfile
+#4 transferring dockerfile: 699B done
+#4 DONE 0.5s
+
+#5 [nginx internal] load metadata for docker.io/library/debian:bookworm-slim
+#5 DONE 2.0s
+
+#6 [mariadb internal] load .dockerignore
+#6 transferring context: 2B done
+#6 ...
+
+#7 [nginx internal] load .dockerignore
+#7 transferring context: 2B done
+#7 DONE 0.3s
+
+#6 [mariadb internal] load .dockerignore
+#6 DONE 0.3s
+
+#8 [wordpress internal] load .dockerignore
+#8 transferring context: 2B done
+#8 DONE 0.5s
+
+#9 [nginx 1/6] FROM docker.io/library/debian:bookworm-slim@sha256:936abff852736f951dab72d91a1b6337cf04217b2a77a5eaadc7c0f2f1ec1758
+#9 DONE 0.0s
+
+#10 [nginx internal] load build context
+#10 ...
+
+#9 [wordpress 1/6] FROM docker.io/library/debian:bookworm-slim@sha256:936abff852736f951dab72d91a1b6337cf04217b2a77a5eaadc7c0f2f1ec1758
+#9 DONE 0.0s
+
+#10 [nginx internal] load build context
+#10 transferring context: 63B done
+#10 DONE 0.2s
+
+#11 [wordpress internal] load build context
+#11 transferring context: 64B done
+#11 DONE 0.3s
+
+#12 [mariadb internal] load build context
+#12 transferring context: 64B done
+#12 DONE 0.4s
+
+#13 [nginx 2/6] RUN apt-get update -y && apt-get install -y nginx openssl &&     rm -rf /var/lib/apt/lists/*
+#13 CACHED
+
+#14 [nginx 4/6] RUN openssl req -x509 -nodes -days 365     -newkey rsa:2048     -keyout /etc/nginx/ssl/inception.key     -out /etc/nginx/ssl/inception.crt     -subj "/C=FR/ST=IDF/L=Paris/O=42/OU=42/CN=layang.42.fr"
+#14 CACHED
+
+#15 [nginx 3/6] RUN mkdir -p /etc/nginx/ssl /var/www/html
+#15 CACHED
+
+#16 [nginx 5/6] COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
+#16 CACHED
+
+#17 [wordpress 3/7] RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar     && chmod +x wp-cli.phar     && mv wp-cli.phar /usr/local/bin/wp
+#17 CACHED
+
+#18 [wordpress 5/7] COPY conf/entrypoint.sh /entrypoint.sh
+#18 CACHED
+
+#19 [wordpress 2/7] RUN apt-get update && apt-get install -y       php8.2 php8.2-fpm php8.2-mysql       mariadb-client curl wget unzip less     && rm -rf /var/lib/apt/lists/*
+#19 CACHED
+
+#20 [wordpress 4/7] RUN sed -i 's|listen = /run/php/php8.2-fpm.sock|listen = 0.0.0.0:9000|' /etc/php/8.2/fpm/pool.d/www.conf
+#20 CACHED
+
+#21 [wordpress 6/7] RUN chmod +x /entrypoint.sh
+#21 CACHED
+
+#22 [nginx 6/6] RUN chmod 600 /etc/nginx/ssl/inception.key &&     chmod 644 /etc/nginx/ssl/inception.crt
+#22 CACHED
+
+#23 [wordpress 7/7] WORKDIR /var/www/html
+#23 CACHED
+
+#24 [mariadb 2/5] RUN apt-get update && apt-get install -y mariadb-server     && rm -rf /var/lib/apt/lists/*
+#24 CACHED
+
+#25 [mariadb 4/5] COPY conf/entrypoint.sh /entrypoint.sh
+#25 CACHED
+
+#26 [mariadb 3/5] RUN mkdir -p /var/lib/mysql /run/mysqld     && chown -R mysql:mysql /var/lib/mysql /run/mysqld     && chmod 755 /var/lib/mysql
+#26 CACHED
+
+#27 [mariadb 5/5] RUN chmod +x /entrypoint.sh
+#27 CACHED
+
+#28 [nginx] exporting to image
+#28 exporting layers done
+#28 writing image sha256:f3ae53faa6520067b87afb6d99a4301fef5b3f11fa88abb0e83837c21e4c469e
+#28 writing image sha256:f3ae53faa6520067b87afb6d99a4301fef5b3f11fa88abb0e83837c21e4c469e 0.2s done
+#28 naming to docker.io/library/srcs-nginx
+#28 naming to docker.io/library/srcs-nginx 0.1s done
+#28 DONE 0.4s
+
+#29 [wordpress] exporting to image
+#29 exporting layers done
+#29 writing image sha256:a0b11c81b76cb4fc0ceafec1487054375e552633f50374fd9b3ef6a7f99a943e 0.1s done
+#29 naming to docker.io/library/srcs-wordpress 0.2s done
+#29 DONE 0.4s
+
+#30 [mariadb] exporting to image
+#30 exporting layers done
+#30 writing image sha256:8b621c933e1ef667c21522170cb44bf608dffa9746b35384e239fa19d86fd498 0.2s done
+#30 naming to docker.io/library/srcs-mariadb 0.1s done
+#30 DONE 0.6s
+
+#31 [wordpress] resolving provenance for metadata file
+#31 DONE 0.4s
+
+#32 [nginx] resolving provenance for metadata file
+#32 DONE 0.2s
+
+#33 [mariadb] resolving provenance for metadata file
+#33 DONE 0.0s
+ srcs-mariadb  Built
+ srcs-nginx  Built
+ srcs-wordpress  Built
+docker compose -f ./srcs/docker-compose.yml up -d --remove-orphans
+ Network srcs_inception  Creating
+ Network srcs_inception  Created
+ Volume srcs_wordpress  Creating
+ Volume srcs_wordpress  Created
+ Volume srcs_mariadb  Creating
+ Volume srcs_mariadb  Created
+ Container mariadb  Creating
+ Container mariadb  Created
+ Container wordpress  Creating
+ Container wordpress  Created
+ Container nginx  Creating
+ Container nginx  Created
+ Container mariadb  Starting
+ Container mariadb  Started
+ Container wordpress  Starting
+ Container wordpress  Started
+ Container nginx  Starting
+ Container nginx  Started
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.0   2584  1716 ?        Ss   13:44   0:00 /bin/sh /usr/bin/gvfc cmysqld_safe --user=mysql --datadir=/var/lib/mysql
+
+mysql        137  0.2  6.8 1275712 138008 ?      Sl   13:44   0:00 /usr/sbin/mar
+root         138  0.0  0.0   5952  1432 ?        S    13:44   0:00 logger -t mys
+root         649 96.0  0.1   8108  3904 pts/0    Rs+  13:49   0:00 ps aux

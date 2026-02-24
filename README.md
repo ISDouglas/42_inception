@@ -38,10 +38,10 @@ You must use **Docker Compose** to set up multiple isolated containers running d
 ```bash
 inception/
 ├── Makefile
-├── secrets/                     # Sensitive files (at project root, ignored by git)
+├── secrets/ # Sensitive files (at project root, ignored by git)
 ├── srcs/
 │   ├── docker-compose.yml
-│   ├── .env                     # Environment variables (ignored by git)
+│   ├── .env # Environment variables (ignored by git)
 │   └── requirements/
 │       ├── mariadb/
 │       │   ├── Dockerfile

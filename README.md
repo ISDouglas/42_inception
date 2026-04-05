@@ -4,7 +4,8 @@
 **Inception** is a system administration and virtualization project from **42 School**.  
 The goal is to learn how to use **Docker** to build and configure a lightweight, secure, and reproducible server infrastructure.  
 You must use **Docker Compose** to set up multiple isolated containers running different services on a virtual machine.
-
+<p align="center">  🌍 Architecture of infrastructure</p>
+<p align="center"><img src="Archi_Inception.png" /></p>
 ---
 
 ## 🎯 Objectives
